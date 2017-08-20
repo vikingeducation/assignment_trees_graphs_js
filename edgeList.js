@@ -73,5 +73,21 @@ const printEdgeList = () => {
 
 // Uncomment the fillowing to display your edge list
 // printEdgeList();
+// console.log(JSON.stringify(EDGE_LIST, null, 2));
 
 module.exports = EDGE_LIST;
+
+
+// so we need something like this:
+/*
+  adjacencyMatrix = [
+    [] // index = 0, which is id of FROM person. empty since Bob isn't a from anywhere
+    [9, null, null, null, 4, etc.] // index = 1, which is Harry. Connected TO Bob (index 1) with weight of 9. So..
+                                   // [1][0] <- first number indicates FROM. Second number indicates TO. FROM harry TO bob.
+  ];
+
+  adjacencyList is same, but instead of array of arrays, it's array of linked list. each list node has
+    person id
+    weight
+    next
+*/
