@@ -89,8 +89,14 @@ class Matrix {
       console.log(rowString);
     }
   }
+
+  edgeWeight(fromId, toId) {
+    let weight = this.matrix[fromId][toId].weight;
+    console.log(weight);
+  }
 }
 
 let matrix = new Matrix(EDGE_LIST);
 
 matrix.printMatrix();
+matrix.edgeWeight(1, 10);
