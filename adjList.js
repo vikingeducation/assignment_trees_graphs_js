@@ -59,12 +59,12 @@ class LinkedList {
     return currentNode;
   }
 
-  findWord(word) {
+  findPersonById(personId) {
     let currentNode = this.headNode;
     let counter = 1;
 
     while (currentNode !== null) {
-      if (currentNode.data.name === word) {
+      if (currentNode.data.person.id === personId) {
         return { data: currentNode.data, counter };
       }
 
@@ -169,7 +169,14 @@ class AdjList {
       }
     }
   }
+
+  edgeWeight(fromId, toId) {
+    let weight = this.adjList[fromId].findPersonById(toId).data.weight;
+    console.log(weight);
+  }
 }
 
 let adjList = new AdjList(EDGE_LIST);
 adjList.printAdjList();
+adjList.edgeWeight(1, 10);
+adjList.edgeWeight(5, 3);
