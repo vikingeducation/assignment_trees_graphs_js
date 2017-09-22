@@ -1,22 +1,32 @@
 class Node {
-  constructor(data, left = null, right = null, depth = 0) {
-    this.children = [];
+  constructor(data, children = []) {
+    this.children = children;
     this.data = data;
-    this.depth = depth;
+    // this.depth = depth;
   }
 }
 
+// mark[(m[(a, r, k)], a[(m, r, k)], r, k)];
+
 class Tree {
   constructor(array) {
-    this.root = new Node(array[0], null, null, 1);
-    this.maxDepth = 0;
+    this.root = this.makeChildren(array);
     this.makeTree(array.slice(1));
   }
 
+  makeChildren(array, node) {
+    node = array.map(
+      char =>
+        new Node({
+          char,
+          children: array.filter(character => character !== char)
+        })
+    );
+  }
+
   makeTree(array) {
-    array.forEach(num => {
-      this.insertNode(new Node(num), this.root);
-    });
+    if(!array.length) return;
+    array.
   }
 
   insertNode(node, parent) {
