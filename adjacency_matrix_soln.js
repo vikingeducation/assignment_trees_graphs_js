@@ -1,3 +1,4 @@
+const EDGE_LIST = require('./edgeList.js')
 
 class AdjacencyMatrix {
   buildMatrix() {
@@ -39,8 +40,15 @@ class AdjacencyMatrix {
     });
     return output;
   }
+
+  edgeWeight(id1, id2) {
+    return this.matrix[id1][id2];
+  }
 }
 
 const test = new AdjacencyMatrix();
 test.populateMatrix(EDGE_LIST);
 console.log(test.matrixToString());
+console.log(test.edgeWeight(1, 4));
+
+
