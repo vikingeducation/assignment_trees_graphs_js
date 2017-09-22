@@ -1,8 +1,8 @@
-const Person = require("./Person");
+const Person = require('./Person');
 class AdjacencyMatrix {
   constructor(input) {
     this.matrix = null;
-    if (typeof input === "number") {
+    if (typeof input === 'number') {
       this._buildMatrix(input);
     } else {
       const maxId = input.reduce((acc, edge) => {
@@ -25,12 +25,62 @@ class AdjacencyMatrix {
   }
 
   display() {
-    this.matrix.forEach(row => console.log(JSON.stringify(row)));
+    process.stdout.write('    ');
+
+    for (let i = 0; i < this.matrix.length; i++) {
+      process.stdout.write(`${i}`.padEnd(2));
+    }
+
+    process.stdout.write('\n');
+
+    for (let i = 0; i < this.matrix.length; i++) {
+      process.stdout.write(`${i}: `.padEnd(4)); // row headers
+
+      for (let j = 0; j < this.matrix[i].length; j++) {
+        process.stdout.write(
+          !this.matrix[i][j] ? '--' : ('' + this.matrix[i][j]).padEnd(2)
+        );
+      }
+
+      process.stdout.write('\n');
+    }
+
+    // this.matrix.forEach(row => {
+    //   row = row.map(edge => {
+    //     console.log(edge, '???');
+    //     console.log(JSON.stringify(row));
+    //     // return process.stdout.write(!edge ? '--' : ('' + edge).padEnd(2));
+    //   });
+    //   // process.stdout.write('\n');
+
+    // });
     // console.log(JSON.stringify(this.matrix, null, 2));
   }
 }
 
-const EDGE_LIST = require("./_edgeList");
+//     0 1 2 3 4 5 6 7 8 9 10111213141516171819
+// 0:  ----------------------------------------
+// 1:  9 --2 --11----------------------12------
+// 2:  --------------16----7 ------1 ----------
+// 3:  --------------------------------------16
+// 4:  ----8 --------19------------11----11----
+// 5:  ------9 ----12------12------------------
+// 6:  ----------------------------------------
+// 7:  ----------1 --------11----------------13
+// 8:  9 ------------9 --------------1 20------
+// 9:  ------------11--------------20--------12
+// 10: ------19--------------------------------
+// 11: --------------19------------------------
+// 12: --------------------15----------7 164 --
+// 13: ----------3 ----5 ------------17----12--
+// 14: ------------------------10--------------
+// 15: 18--------------------------------8 ----
+// 16: ----1 --12------------10----------------
+// 17: ----------17----------------9 ----------
+// 18: ----------------------------9 --14------
+// 19: ----5 ------------------5 7 --------3 --
+
+const EDGE_LIST = require('./_edgeList');
 
 const adjacent = new AdjacencyMatrix(EDGE_LIST);
 // adjacent.add(1, 2, 23);
@@ -38,14 +88,11 @@ const adjacent = new AdjacencyMatrix(EDGE_LIST);
 adjacent.display();
 
 const printEdgeList = () => {
-  let lines = [" -- Edge List -- "];
+  let lines = [' -- Edge List -- '];
   EDGE_LIST.forEach(e => {
     lines.push(`${e[0].name} <-${e[2]}-> ${e[1].name}`);
   });
-  console.log(lines.join("\n"));
+  console.log(lines.join('\n'));
 };
-
-// Uncomment the fillowing to display your edge list
-// printEdgeList();
 
 module.exports = EDGE_LIST;
