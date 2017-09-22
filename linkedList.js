@@ -100,8 +100,18 @@ class LinkedList {
       currentNode = currentNode.next;
       count++;
     }
+  }
 
-    return { count, node: null };
+  weightSearch() {
+    let currentNode = this.headNode;
+    let sumWeight = 0;
+
+    // DON'T MAKE CIRCULAR LINKED LISTS!!!
+    while (true) {
+      if (!currentNode) return sumWeight;
+      sumWeight += currentNode.data.weight;
+      currentNode = currentNode.next;
+    }
   }
 
   // Crawls and prints the list
