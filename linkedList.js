@@ -1,6 +1,7 @@
 class Node {
   //from an edge
   constructor(edge, next=null) {
+    this.from = edge[0]
     this.to = edge[1];
     this.weight = edge[2]
     this.next = next;
@@ -101,18 +102,23 @@ class LinkedList {
   }
 
   printNode(node) {
-    process.stdout.write(`[${node.to}: ${node.to}]`);
+    process.stdout.write(` to: ${node.to.name}, weight: ${node.weight}`);
   }
 
   // Crawls and prints the list
   printList() {
     // Start at the head
     let currentNode = this.headNode;
-
+    if (this.headNode) {
+      process.stdout.write("From ")
+      process.stdout.write(currentNode.from.name);
+      process.stdout.write(" at index ")
+      process.stdout.write(currentNode.from.id.toString());
+    };
     while (currentNode) {
       this.printNode(currentNode);
       if (currentNode.next) {
-        process.stdout.write(" => ");
+        process.stdout.write(" =>");
       }
       currentNode = currentNode.next;
     }
