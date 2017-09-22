@@ -1,4 +1,4 @@
-class BinaryNode {
+class Node {
   constructor(data, left = null, right = null) {
     this.data = data;
     this.left = left;
@@ -9,23 +9,48 @@ class BinaryNode {
 class BinaryTree {
   constructor(array) {
     this.array = array;
-    this.root = new BinaryNode(this.array[0]);
+    this.root = new Node(this.array.shift());
+//    this.addNode = this.addNode.bind(this)
+    while (this.array.length) {
+      this.addNode(this.array.shift())
+    }
   }
 
-  addNode(value) {
+  addNode(value, current=this.root) {
     //left condition
-    let currentNode;
-    if (value < this.root.data) {
-      this.root.left
-        ? (currentNode = this.root.left)
-        : (this.root.left = value);
+    if (value < current.data) {
+      if (current.left) {
+        this.addNode(value, current.left)
+      }
+      return current.left = new Node(value)
+    } else {
+      //right condition
+      if (current.right) {
+        this.addNode(value, current.right)
+      }
+      return current.right = new Node(value);
     }
   }
 }
-
-let binary_table = new BinaryTree([6]);
+/* 
+          6
+        /   
+        4
+      /
+    3
+  / \
+  1  5  
+*/
+let binary_table = new BinaryTree([6, 4, 3]);
 
 binary_table.addNode(5);
 binary_table.addNode(1);
+binary_table.addNode(9);
+
+console.log(binary_table.root);
 console.log(binary_table.root.left);
-console.log(binary_table.root.left);
+console.log(binary_table.root.right);
+console.log(binary_table.root.left.left);
+console.log(binary_table.root.left.right);
+console.log(binary_table.root.left.left);
+console.log('6, 4, 9, 3, 5, 1')
