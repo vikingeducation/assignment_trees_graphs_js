@@ -8,6 +8,7 @@ class Node {
 
 class Tree {
   constructor(iter) {
+    this.depth = 0;
     if (iter) {
       iter.forEach(item => {
         this.add(item);
@@ -18,10 +19,13 @@ class Tree {
 
   add(data) {
     if (!this.root) {
+      this.depth = 1;
       this.root = new Node(data);
     } else {
       let current = this.root;
+      let depth = 0;
       while (current) {
+        depth++;
         if (current.data > data && current.left) {
           current = current.left;
         } else if (current.data < data && current.right) {
@@ -30,7 +34,8 @@ class Tree {
           break;
         }
       }
-      current[current.data > data ? 'left' : 'right'] = new Node(data);
+      this.depth = depth > this.depth ? depth : this.depth;
+      current[current.data > data ? "left" : "right"] = new Node(data);
     }
   }
 
@@ -49,7 +54,8 @@ const tree = new Tree([8, 10, 3, 1, 6, 14, 4, 7, 13]);
 // tree.add(3);
 // tree.add(2);
 
-tree.display();
+// tree.display();
+console.log(tree.depth);
 
 // {
 //   "data": 8,
