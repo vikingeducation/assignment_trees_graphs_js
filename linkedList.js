@@ -84,22 +84,7 @@ class LinkedList {
     //BigO = O(index)
     return currentNode;
   }
-  //
-  // search(word) {
-  //   let currentNode = this.headNode;
-  //   let count = 1;
-  //
-  //   // DON'T MAKE CIRCULAR LINKED LISTS!!!
-  //   while (true) {
-  //     if (!currentNode) return { count, node: null };
-  //     if (currentNode.word === word) return { count, node: currentNode };
-  //     currentNode = currentNode.next;
-  //     count++;
-  //   }
-  //
-  //   return { count, node: null };
-  // }
-  //query is an object
+
   search(query) {
     let currentNode = this.headNode;
     let count = 1;
@@ -118,10 +103,6 @@ class LinkedList {
 
     return { count, node: null };
   }
-  //
-  // printNode(node) {
-  //   process.stdout.write(`[${node.word}: ${node.definition}]`);
-  // }
 
   // Crawls and prints the list
   printList() {
@@ -131,7 +112,7 @@ class LinkedList {
     while (currentNode) {
       this.printNode(currentNode);
       if (currentNode.next) {
-        process.stdout.write(" => ");
+        process.stdout.write(" \t=>\t");
       }
       currentNode = currentNode.next;
     }

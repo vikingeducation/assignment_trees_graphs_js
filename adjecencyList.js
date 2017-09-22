@@ -1,6 +1,10 @@
 const edgeList = require("./edgeList");
 const LinkedList = require("./linkedList");
 
+const printNode = node => {
+  process.stdout.write(`${node.data.person.name} (${node.data.person.id})`);
+};
+
 class AdjacencyList {
   constructor(personArray) {
     this.personArray = personArray;
@@ -10,14 +14,12 @@ class AdjacencyList {
     this.addPeopleArray();
   }
 
-  // printNode(node){
-  //   return `${this.}`
-  // }
   addPeopleArray() {
     this.personArray.forEach(edge => {
       if (!this.adList[edge[0].id]) {
-        this.adList[edge[0].id] = new LinkedList();
+        this.adList[edge[0].id] = new LinkedList(null, printNode);
         this.name[edge[0].id] = edge[0].name;
+        this.name[edge[1].id] = edge[1].name;
       }
       this.adList[edge[0].id].addNode({
         to: edge[1].id,
@@ -32,8 +34,14 @@ class AdjacencyList {
     return node.data.weight;
   }
   printAdjList() {
-    this.name.forEach(name => {
-      console.log(`from: ${name}\t`);
+    this.name.forEach((name, index) => {
+      process.stdout.write(`from: ${name}`);
+      if (this.adList[index]) {
+        process.stdout.write("\t=>\t");
+        this.adList[index].printList();
+      } else {
+        process.stdout.write("\n");
+      }
     });
   }
   findHighId(personArray) {
@@ -49,7 +57,7 @@ class AdjacencyList {
 }
 
 const test = () => {
-  const adjList = new AdjacencyList(edgeList);
+  const adjList = new AdjacencyList(edgeList, printNode);
   console.log("adjList = ", adjList);
   console.log("edgeWeight 2<->10 is = ", adjList.edgeWeight(2, 10));
   adjList.printAdjList();
