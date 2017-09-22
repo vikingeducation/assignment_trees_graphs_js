@@ -17,10 +17,10 @@ class AdjacencyMatrix {
   }
 
   populateMatrix(EDGE_LIST) {
-    EDGE_LIST.forEach(connection => {
-      for (let i=1; i<=EDGE_LIST.length; i++) {
+    for (let i=1; i<=this.getLength(EDGE_LIST); i++) {
         this.matrix[i][i] = null
-      }
+    }
+    EDGE_LIST.forEach(connection => {
       this.matrix[connection[0].id][connection[1].id] = connection[2];
       this.matrix[connection[1].id][connection[0].id] = connection[2]
     });
