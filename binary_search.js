@@ -37,7 +37,7 @@ class BinaryTree {
   removeNode(node) {}
 
   findValue(value, current = this.root) {
-    if ((value = current.value)) return current;
+    if (value === current.value) return current;
     if (value < current.data) {
       if (current.left) {
         this.findValue(value, current.left);
@@ -57,5 +57,5 @@ class BinaryTree {
 
 let binary_table = new BinaryTree([6, 4, 3, 8, 7, 9]);
 
-console.log(this.root);
+console.log(binary_table.root);
 console.log(binary_table.findValue(8));
