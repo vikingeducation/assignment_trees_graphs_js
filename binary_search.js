@@ -21,36 +21,41 @@ class BinaryTree {
     if (value < current.data) {
       if (current.left) {
         this.addNode(value, current.left);
+      } else {
+        current.left = new Node(value);
       }
-      return (current.left = new Node(value));
     } else {
       //right condition
       if (current.right) {
         this.addNode(value, current.right);
+      } else {
+        return (current.right = new Node(value));
       }
-      return (current.right = new Node(value));
+    }
+  }
+
+  removeNode(node) {}
+
+  findValue(value, current = this.root) {
+    if ((value = current.value)) return current;
+    if (value < current.data) {
+      if (current.left) {
+        this.findValue(value, current.left);
+      } else {
+        return console.log("not found");
+      }
+    } else {
+      //right condition
+      if (current.right) {
+        this.findValue(value, current.right);
+      } else {
+        return console.log("not found");
+      }
     }
   }
 }
-/* 
-          6
-        /  \
-        4   9
-      /
-    3
-  / \
-  1  5  
-*/
-let binary_table = new BinaryTree([6, 4, 3]);
 
-binary_table.addNode(5);
-binary_table.addNode(1);
-binary_table.addNode(9);
+let binary_table = new BinaryTree([6, 4, 3, 8, 7, 9]);
 
-console.log(binary_table.root);
-console.log(binary_table.root.left);
-console.log(binary_table.root.right);
-console.log(binary_table.root.left.left);
-console.log(binary_table.root.left.right);
-console.log(binary_table.root.left.left);
-console.log("6, 4, 9, 3, 5, 1");
+console.log(this.root);
+console.log(binary_table.findValue(8));
