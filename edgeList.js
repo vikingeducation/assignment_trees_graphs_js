@@ -1,8 +1,8 @@
-const Person = require('./Person');
+const Person = require("./Person");
 class AdjacencyMatrix {
   constructor(input) {
     this.matrix = null;
-    if (typeof input === 'number') {
+    if (typeof input === "number") {
       this._buildMatrix(input);
     } else {
       const maxId = input.reduce((acc, edge) => {
@@ -24,37 +24,32 @@ class AdjacencyMatrix {
     this.matrix[leftId][rightId] = weight;
   }
 
-  display() {
-    process.stdout.write('    ');
+  edgeWeight(left, right) {
+    return this.matrix[left][right]
+      ? this.matrix[left][right]
+      : this.matrix[right][left];
+  }
 
+  display() {
+    // Column Headers
+    process.stdout.write("    ");
     for (let i = 0; i < this.matrix.length; i++) {
       process.stdout.write(`${i}`.padEnd(2));
     }
-
-    process.stdout.write('\n');
+    process.stdout.write("\n");
 
     for (let i = 0; i < this.matrix.length; i++) {
-      process.stdout.write(`${i}: `.padEnd(4)); // row headers
+      // Row headers
+      process.stdout.write(`${i}: `.padEnd(4));
 
       for (let j = 0; j < this.matrix[i].length; j++) {
         process.stdout.write(
-          !this.matrix[i][j] ? '--' : ('' + this.matrix[i][j]).padEnd(2)
+          !this.matrix[i][j] ? "--" : ("" + this.matrix[i][j]).padEnd(2)
         );
       }
 
-      process.stdout.write('\n');
+      process.stdout.write("\n");
     }
-
-    // this.matrix.forEach(row => {
-    //   row = row.map(edge => {
-    //     console.log(edge, '???');
-    //     console.log(JSON.stringify(row));
-    //     // return process.stdout.write(!edge ? '--' : ('' + edge).padEnd(2));
-    //   });
-    //   // process.stdout.write('\n');
-
-    // });
-    // console.log(JSON.stringify(this.matrix, null, 2));
   }
 }
 
@@ -80,19 +75,23 @@ class AdjacencyMatrix {
 // 18: ----------------------------9 --14------
 // 19: ----5 ------------------5 7 --------3 --
 
-const EDGE_LIST = require('./_edgeList');
+const EDGE_LIST = require("./_edgeList");
 
 const adjacent = new AdjacencyMatrix(EDGE_LIST);
 // adjacent.add(1, 2, 23);
 // adjacent.add(4, 2, 23);
-adjacent.display();
+// adjacent.display();
+console.log(adjacent.edgeWeight(2, 10));
+console.log(adjacent.edgeWeight(10, 2));
+console.log(adjacent.edgeWeight(5, 10));
+console.log(adjacent.edgeWeight(10, 5));
 
 const printEdgeList = () => {
-  let lines = [' -- Edge List -- '];
+  let lines = [" -- Edge List -- "];
   EDGE_LIST.forEach(e => {
     lines.push(`${e[0].name} <-${e[2]}-> ${e[1].name}`);
   });
-  console.log(lines.join('\n'));
+  console.log(lines.join("\n"));
 };
 
 module.exports = EDGE_LIST;
