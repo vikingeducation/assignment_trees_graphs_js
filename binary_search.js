@@ -10,7 +10,6 @@ class BinaryTree {
   constructor(array) {
     this.array = array;
     this.root = new Node(this.array.shift());
-    //    this.addNode = this.addNode.bind(this)
     while (this.array.length) {
       this.addNode(this.array.shift());
     }
@@ -55,6 +54,7 @@ class BinaryTree {
   }
 
   mapSubTree(node, subTree=[]) {
+    //list subtree nodes in array, not their relationships
     subTree.push(node.data);
     if (!node.left && !node.right) {
       return subTree;
@@ -65,6 +65,7 @@ class BinaryTree {
   }
 
   findValue(value, current = this.root) {
+    // returns node with given value
     if (value === current.data) return current;
     if (value < current.data) {
       if (current.left) {
@@ -73,7 +74,6 @@ class BinaryTree {
         return console.log("not found");
       }
     } else {
-      //right condition, current.data)
       if (current.right) {
         return this.findValue(value, current.right);
       } else {
@@ -91,7 +91,6 @@ class BinaryTree {
         return console.log("child not found");
       }
     } else {
-      //right condition
       if (current.right) {
         if (value === current.right.data) return current;
         return this.findValue(value, current.right);
