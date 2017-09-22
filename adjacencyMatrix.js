@@ -10,6 +10,7 @@ class AdjacencyMatrix {
 
     this.insertWeights(personArray);
     console.log(this.matrix);
+    this.edges = personArray.length;
   }
 
   findHighId(personArray) {
@@ -21,6 +22,54 @@ class AdjacencyMatrix {
       });
     });
     return id;
+  }
+  showStats() {
+    //total number of vertices and edges
+    console.log(`number of vertices ${this.matrix.length}`);
+    const edges = this.matrix.reduce((edgeCount, arr) => {
+      return (
+        edgeCount +
+        arr.reduce((edges, element) => {
+          if (!element) return edges;
+          return edges + 1;
+        }, 0)
+      );
+    }, 0);
+    console.log(`number of edges ${edges}`);
+    // console.log("actual edges = ", this.edges);
+
+    //most connected
+    let degrees = this.matrix.map((arr, index) => {
+      return {
+        name: this.name[index],
+        degree: arr.reduce((edges, element) => {
+          if (!element) return edges;
+          return edges + 1;
+        }, 0)
+      };
+    });
+    let sorted = degrees.sort((a, b) => b.degree - a.degree);
+    console.log(
+      `Top three most connected ${sorted[0].name}(${sorted[0]
+        .degree}), ${sorted[1].name}(${sorted[1].degree}), ${sorted[2]
+        .name}(${sorted[2].degree})`
+    );
+    //strongest 3 connections
+    let weights = this.matrix.map((arr, index) => {
+      return {
+        name: this.name[index],
+        weight: arr.reduce((sum, element) => {
+          if (!element) return sum;
+          return sum + element;
+        }, 0)
+      };
+    });
+    sorted = weights.sort((a, b) => b.weight - a.weight);
+    console.log(
+      `Top three heaviest connectorsss....people.. ${sorted[0].name}(${sorted[0]
+        .weight}), ${sorted[1].name}(${sorted[1].weight}), ${sorted[2]
+        .name}(${sorted[2].weight})`
+    );
   }
 
   insertWeights(personArray) {
@@ -58,5 +107,6 @@ const test = () => {
   const matrix = new AdjacencyMatrix(edgeList);
   console.log("edgeWieght(1,10), = ", matrix.edgeWeight(1, 10));
   matrix.printMatrix();
+  matrix.showStats();
 };
 test();
