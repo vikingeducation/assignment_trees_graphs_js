@@ -1,5 +1,5 @@
-const EDGE_LIST = require('./_edgeList');
-const LinkedList = require('./linkedList');
+const EDGE_LIST = require("./_edgeList");
+const LinkedList = require("./linkedList");
 
 class AdjacencyMatrix {
   constructor(edgeList) {
@@ -18,7 +18,7 @@ class AdjacencyMatrix {
   display() {
     this.edges.forEach(edge => {
       if (edge.head) {
-        console.log(edge.person.name, ' is connected to:');
+        console.log(edge.person.name, " is connected to:");
         console.log(edge.toString());
       }
     });
@@ -26,7 +26,6 @@ class AdjacencyMatrix {
 
   edgeWeight(left, right) {
     let current = this.edges[left].head;
-    // console.log(this.edges[left]);
     while (current.data.id !== right && current.next) {
       current = current.next;
     }
