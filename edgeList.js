@@ -70,7 +70,7 @@ const printEdgeList = () => {
   });
   console.log(lines.join("\n"));
 };
-printEdgeList();
+// printEdgeList();
 
 // Uncomment the fillowing to display your edge list
 // printEdgeList();
