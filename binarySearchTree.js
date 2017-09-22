@@ -28,19 +28,50 @@ class Tree {
         depth++;
         if (current.data > data && current.left) {
           current = current.left;
-        } else if (current.data < data && current.right) {
+        } else if (current.data <= data && current.right) {
           current = current.right;
         } else {
           break;
         }
       }
       this.depth = depth > this.depth ? depth : this.depth;
-      current[current.data > data ? "left" : "right"] = new Node(data);
+      current[current.data > data ? 'left' : 'right'] = new Node(data);
     }
   }
 
   display() {
     console.log(JSON.stringify(this.root, null, 2));
+  }
+
+  printTree() {
+    let displayMatrix = [...Array(this.depth + 1)].map(
+      () => new Array(2 ** (this.depth + 1))
+    );
+
+    const populate = (currentNode, depth, position) => {
+      displayMatrix[displayMatrix.length - (depth + 1)][position] =
+        currentNode.data;
+
+      if (currentNode.left) {
+        populate(currentNode.left, depth - 1, position - 2 ** (depth - 1));
+      }
+
+      if (currentNode.right) {
+        populate(currentNode.right, depth - 1, position + 2 ** (depth - 1));
+      }
+    };
+
+    populate(this.root, this.depth, 2 ** this.depth);
+
+    for (let i = 0; i < displayMatrix.length; i++) {
+      for (let j = 0; j < displayMatrix[i].length; j++) {
+        process.stdout.write(
+          !displayMatrix[i][j] ? '--' : ('' + displayMatrix[i][j]).padEnd(2)
+        );
+      }
+
+      process.stdout.write('\n');
+    }
   }
 }
 
@@ -48,14 +79,21 @@ const tree = new Tree([8, 10, 3, 1, 6, 14, 4, 7, 13]);
 
 // tree.add();
 
-// tree.add(6);
-// tree.add(5);
-// tree.add(4);
-// tree.add(3);
-// tree.add(2);
+tree.add(6);
+tree.add(5);
+tree.add(9);
+tree.add(3);
+tree.add(2);
 
 // tree.display();
-console.log(tree.depth);
+// console.log(tree.depth);
+tree.printTree();
+
+// --------------------------------8 ------------------------------
+// ----------------3 ------------------------------10--------------
+// --------1 --------------6 --------------9 --------------14------
+// ------------2 ------4 ------7 ----------------------13----------
+// ------------------3 --5 --6 ------------------------------------
 
 // {
 //   "data": 8,
