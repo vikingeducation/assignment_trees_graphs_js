@@ -35,19 +35,33 @@ class BinaryTree {
   }
 
   removeNode(value) {
+    // removes node and reassigns its children
     const node = this.findValue(value);
     const parent = this.findParent(value);
+    console.log(this.mapSubTree(node))
+    let children = this.mapSubTree(node).filter(child=>{
+      return child !== value
+    })
+    console.log(children)
+    if (parent.left===node) {
+      parent.left = null;
+    }
+    if (parent.right===node) {
+      parent.right = null;
+    }
+    while (children.length) {
+      this.addNode(children.shift());
+    }
   }
 
-  pruneSubTree(node) {
-    let subTree = subTree || [];
+  mapSubTree(node, subTree=[]) {
     subTree.push(node.data);
     if (!node.left && !node.right) {
       return subTree;
-      if (!node.left) return this.pruneSubTree(node.right);
-    } else {
-      return this.pruneSubTree(node.left).concat(this.pruneSubTree(node.right));
-    }
+    } 
+    if (!node.right) return this.mapSubTree(node.left, subTree);
+    if (!node.left) return this.mapSubTree(node.right, subTree);
+    return this.mapSubTree(node.left).concat(this.mapSubTree(node.right)).concat(subTree);
   }
 
   findValue(value, current = this.root) {
@@ -90,8 +104,9 @@ class BinaryTree {
 
 let binary_table = new BinaryTree([6, 4, 3, 8, 7, 9]);
 
-console.log(binary_table.root);
+// console.log(binary_table.root);
 // console.log(binary_table.findValue(8));
 // console.log(binary_table.findParent(8));
-console.log(binary_table.pruneSubTree(binary_table.findValue(6)));
+// console.log(binary_table.mapSubTree(binary_table.findValue(8)));
+binary_table.removeNode(8);
 console.log(binary_table.root);
