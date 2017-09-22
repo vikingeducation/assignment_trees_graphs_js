@@ -34,28 +34,50 @@ class BinaryTree {
     }
   }
 
-  removeNode(node) {}
+  removeNode(node) {
+
+  }
 
   findValue(value, current = this.root) {
-    if (value === current.value) return current;
+    if (value === current.data) return current;
     if (value < current.data) {
       if (current.left) {
-        this.findValue(value, current.left);
+        return this.findValue(value, current.left);
       } else {
         return console.log("not found");
       }
     } else {
-      //right condition
+      //right condition, current.data)
       if (current.right) {
-        this.findValue(value, current.right);
+        return this.findValue(value, current.right);
       } else {
         return console.log("not found");
       }
     }
   }
+  findParent(value, current = this.root, parent=null) {
+    if (value === current.data) return parent;
+    if (value < current.data) {
+      if (current.left) {
+        return this.findParent(value, current.left, current);
+      } else {
+        return console.log("child not found");
+      }
+    } else {
+      //right condition
+      if (current.right) {
+        return this.findValue(value, current.right, current);
+      } else {
+        return console.log("child not found");
+      }
+    }
+  }
+
+
 }
 
 let binary_table = new BinaryTree([6, 4, 3, 8, 7, 9]);
 
 console.log(binary_table.root);
 console.log(binary_table.findValue(8));
+console.log(binary_table.findParent(8));
