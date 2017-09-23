@@ -1,68 +1,91 @@
-// Person struct
-class Person {
-  constructor(id, name) {
-    this.id = id;
-    this.name = name;
+const Person = require("./Person");
+class AdjacencyMatrix {
+  constructor(input) {
+    this.matrix = null;
+    if (typeof input === "number") {
+      this._buildMatrix(input);
+    } else {
+      const maxId = input.reduce((acc, edge) => {
+        return Math.max(acc, edge[0].id, edge[1].id);
+      }, 0);
+      this._buildMatrix(maxId + 1);
+
+      input.forEach(([left, right, weight]) => {
+        this.add(left.id, right.id, weight);
+      });
+    }
+  }
+
+  _buildMatrix(input) {
+    this.matrix = [...Array(input)].map(() => new Array(input));
+  }
+
+  add(leftId, rightId, weight) {
+    this.matrix[leftId][rightId] = weight;
+  }
+
+  edgeWeight(left, right) {
+    return this.matrix[left][right]
+      ? this.matrix[left][right]
+      : this.matrix[right][left];
+  }
+
+  display() {
+    // Column Headers
+    process.stdout.write("    ");
+    for (let i = 0; i < this.matrix.length; i++) {
+      process.stdout.write(`${i}`.padEnd(2));
+    }
+    process.stdout.write("\n");
+
+    for (let i = 0; i < this.matrix.length; i++) {
+      // Row headers
+      process.stdout.write(`${i}: `.padEnd(4));
+
+      for (let j = 0; j < this.matrix[i].length; j++) {
+        process.stdout.write(
+          !this.matrix[i][j] ? "--" : ("" + this.matrix[i][j]).padEnd(2)
+        );
+      }
+
+      process.stdout.write("\n");
+    }
   }
 }
 
-// An edge list of connections between people in the format
-// [ORIGIN_PERSON, DESTINATION_PERSON, WEIGHT]
-// Remember: This is an *undirected* graph.
+//     0 1 2 3 4 5 6 7 8 9 10111213141516171819
+// 0:  ----------------------------------------
+// 1:  9 --2 --11----------------------12------
+// 2:  --------------16----7 ------1 ----------
+// 3:  --------------------------------------16
+// 4:  ----8 --------19------------11----11----
+// 5:  ------9 ----12------12------------------
+// 6:  ----------------------------------------
+// 7:  ----------1 --------11----------------13
+// 8:  9 ------------9 --------------1 20------
+// 9:  ------------11--------------20--------12
+// 10: ------19--------------------------------
+// 11: --------------19------------------------
+// 12: --------------------15----------7 164 --
+// 13: ----------3 ----5 ------------17----12--
+// 14: ------------------------10--------------
+// 15: 18--------------------------------8 ----
+// 16: ----1 --12------------10----------------
+// 17: ----------17----------------9 ----------
+// 18: ----------------------------9 --14------
+// 19: ----5 ------------------5 7 --------3 --
 
-const EDGE_LIST = [
-  [new Person(1, "Harry"), new Person(10, "Alice"), 2],
-  [new Person(1, "Harry"), new Person(0, "Bob"), 9],
-  [new Person(1, "Harry"), new Person(4, "Michael"), 11],
-  [new Person(1, "Harry"), new Person(16, "Peter"), 12],
-  [new Person(2, "Sally"), new Person(7, "Dan"), 16],
-  [new Person(2, "Sally"), new Person(14, "Mike"), 1],
-  [new Person(2, "Sally"), new Person(10, "Alice"), 7],
-  [new Person(3, "Sam"), new Person(19, "Boris"), 16],
-  [new Person(4, "Michael"), new Person(7, "Dan"), 19],
-  [new Person(4, "Michael"), new Person(2, "Sally"), 8],
-  [new Person(4, "Michael"), new Person(17, "Andur"), 11],
-  [new Person(4, "Michael"), new Person(14, "Mike"), 11],
-  [new Person(5, "Michelle"), new Person(3, "Sam"), 9],
-  [new Person(5, "Michelle"), new Person(10, "Alice"), 12],
-  [new Person(5, "Michelle"), new Person(6, "Alok"), 12],
-  [new Person(7, "Dan"), new Person(19, "Boris"), 13],
-  [new Person(7, "Dan"), new Person(10, "Alice"), 11],
-  [new Person(7, "Dan"), new Person(5, "Michelle"), 1],
-  [new Person(8, "Nick"), new Person(15, "Adam"), 1],
-  [new Person(8, "Nick"), new Person(16, "Peter"), 20],
-  [new Person(8, "Nick"), new Person(7, "Dan"), 9],
-  [new Person(8, "Nick"), new Person(0, "Bob"), 9],
-  [new Person(9, "Olga"), new Person(6, "Alok"), 11],
-  [new Person(9, "Olga"), new Person(14, "Mike"), 20],
-  [new Person(9, "Olga"), new Person(19, "Boris"), 12],
-  [new Person(10, "Alice"), new Person(3, "Sam"), 19],
-  [new Person(11, "Donald"), new Person(7, "Dan"), 19],
-  [new Person(12, "Garrett"), new Person(10, "Alice"), 15],
-  [new Person(12, "Garrett"), new Person(16, "Peter"), 7],
-  [new Person(12, "Garrett"), new Person(17, "Andur"), 16],
-  [new Person(12, "Garrett"), new Person(18, "Tom"), 4],
-  [new Person(13, "Xin"), new Person(8, "Nick"), 5],
-  [new Person(13, "Xin"), new Person(5, "Michelle"), 3],
-  [new Person(13, "Xin"), new Person(18, "Tom"), 12],
-  [new Person(13, "Xin"), new Person(15, "Adam"), 17],
-  [new Person(14, "Mike"), new Person(12, "Garrett"), 10],
-  [new Person(15, "Adam"), new Person(0, "Bob"), 18],
-  [new Person(15, "Adam"), new Person(17, "Andur"), 8],
-  [new Person(16, "Peter"), new Person(4, "Michael"), 12],
-  [new Person(16, "Peter"), new Person(11, "Donald"), 10],
-  [new Person(16, "Peter"), new Person(2, "Sally"), 1],
-  [new Person(17, "Andur"), new Person(14, "Mike"), 9],
-  [new Person(17, "Andur"), new Person(5, "Michelle"), 17],
-  [new Person(18, "Tom"), new Person(14, "Mike"), 9],
-  [new Person(18, "Tom"), new Person(16, "Peter"), 14],
-  [new Person(19, "Boris"), new Person(2, "Sally"), 5],
-  [new Person(19, "Boris"), new Person(18, "Tom"), 3],
-  [new Person(19, "Boris"), new Person(12, "Garrett"), 5],
-  [new Person(19, "Boris"), new Person(13, "Xin"), 7]
-];
+const EDGE_LIST = require("./_edgeList");
 
-// Helper function to view the edge list
+const adjacent = new AdjacencyMatrix(EDGE_LIST);
+// adjacent.add(1, 2, 23);
+// adjacent.add(4, 2, 23);
+// adjacent.display();
+console.log(adjacent.edgeWeight(2, 10));
+console.log(adjacent.edgeWeight(10, 2));
+console.log(adjacent.edgeWeight(5, 10));
+console.log(adjacent.edgeWeight(10, 5));
+
 const printEdgeList = () => {
   let lines = [" -- Edge List -- "];
   EDGE_LIST.forEach(e => {
@@ -70,8 +93,5 @@ const printEdgeList = () => {
   });
   console.log(lines.join("\n"));
 };
-
-// Uncomment the fillowing to display your edge list
-// printEdgeList();
 
 module.exports = EDGE_LIST;
