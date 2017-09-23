@@ -1,6 +1,15 @@
 const edgeList = require("./edgeList");
 const LinkedList = require("./linkedList");
 
+//the class we set our Node's data to
+class AdjacencyNode {
+  constructor(toEdge, weight) {
+    this.to = toEdge.id;
+    this.person = toEdge;
+    this.weight = weight;
+  }
+}
+
 class AdjacencyList {
   constructor(personArray) {
     this.personArray = personArray;
@@ -10,23 +19,18 @@ class AdjacencyList {
     this.addPeopleArray();
   }
 
-  // printNode(node){
-  //   return `${this.}`
-  // }
-
+  //populate the array with linkedLists, and add our edges to those lists
   addPeopleArray() {
     this.personArray.forEach(edge => {
       if (!this.adList[edge[0].id]) {
         this.adList[edge[0].id] = new LinkedList();
         this.name[edge[0].id] = edge[0].name;
       }
-      this.adList[edge[0].id].addNode({
-        to: edge[1].id,
-        person: edge[1],
-        weight: edge[2]
-      });
+      this.adList[edge[0].id].addNode(new AdjacencyNode(edge[1], edge[2]));
     });
   }
+
+  //find the edge weight given the vertices
   edgeWeight(from, to) {
     const fromList = this.adList[from];
     const { node } = fromList.search({ to: to });
@@ -37,6 +41,7 @@ class AdjacencyList {
       console.log(`from: ${name}\t`);
     });
   }
+  //print out some stats about the Adjacency List
   showStats() {
     //total number of vertices and edges
     console.log(`number of vertices ${this.adList.length}`);
@@ -73,6 +78,7 @@ class AdjacencyList {
         .name}(${sorted[2].weight})`
     );
   }
+  //an internal method: used to find the maximum number of vertices
   findHighId(personArray) {
     let id = 0;
 
