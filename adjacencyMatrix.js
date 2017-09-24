@@ -64,6 +64,7 @@ class AdjacencyMatrix {
         }, 0)
       };
     });
+
     sorted = weights.sort((a, b) => b.weight - a.weight);
     console.log(
       `Top three heaviest connectorsss....people.. ${sorted[0].name}(${sorted[0]
