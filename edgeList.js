@@ -72,6 +72,5 @@ const printEdgeList = () => {
 };
 
 // Uncomment the fillowing to display your edge list
-printEdgeList();
 
 module.exports = EDGE_LIST;
