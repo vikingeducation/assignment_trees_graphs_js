@@ -34,8 +34,6 @@ class AdjacencyMatrix {
         // inner for-loop of shame
         this.edgeList.forEach(
 
-
-
         )
       }
     }
