@@ -22,29 +22,35 @@ class AdjacencyMatrix {
     for (var i = 0, len = this.uniqueIDs.length; i < len; i++) {
       this.matrix.push([]);
       for (var j = 0, len = this.uniqueIDs.length; j < len; j++) {
-        this.matrix[i].push(null); 
+        this.matrix[i].push(0);
       }
     }
-    console.log(this.matrix);
   }
 
   convertEdgeList() {
-    for (var i = 0, len = this.edgeList; i < len; i++) {
-      for (var j = 0, len = this.edgeList; j < len; j++) {
+    for (var i = 0, len = this.edgeList.length; i < len; i++) {
+      for (var j = 0, len = this.edgeList.length; j < len; j++) {
         // inner for-loop of shame
-        this.edgeList.forEach(
 
-
-
-        )
+        this.edgeList.forEach(edge => {
+          if (edge[0].id === i && edge[1].id === j) {
+            this.matrix[i][j] = edge[2];
+          }
+        });
       }
+      console.log(this.matrix[i]);
     }
-    this.edgeList;
+    console.log(JSON.stringify(this.matrix));
   }
 
-
+  edgeWeight(idFrom, idTo) {
+    return this.matrix[idFrom][idTo];
+  }
 }
 
-let edgeList = require('./edgeList.js');
+let edgeList = require("./edgeList.js");
+
 const testMatrix = new AdjacencyMatrix(edgeList);
 testMatrix.initMatrix();
+testMatrix.convertEdgeList();
+console.log(testMatrix.edgeWeight(1, 0));
