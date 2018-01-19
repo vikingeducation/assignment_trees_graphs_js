@@ -28,10 +28,10 @@ class BinaryTree {
     if (!this.data) {
       this.data = data;
     } else if (data >= this.data) {
-      this.right = new BinaryTree();
+      if (!this.right) this.right = new BinaryTree();
       this.right.insert(data);
     } else {
-      this.left = new BinaryTree();
+      if (!this.left) this.left = new BinaryTree();
       this.left.insert(data);
     }
   }
