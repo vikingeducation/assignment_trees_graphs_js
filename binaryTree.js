@@ -8,12 +8,9 @@ class BinaryTree {
   }
 
   isEmpty() {
-    return this.right && this.left;
+    return !this.right && !this.left;
   }
 
-  belongsOnTheRight(data) {
-    return this.right.data >= data;
-  }
 
   insert(data) {
     if (!this.data) {
@@ -26,6 +23,18 @@ class BinaryTree {
       this.left.insert(data);
     }
   }
+
+  height() {
+    if (this.isEmpty()) {
+      return 0;
+    } else {
+      return 1 + Math.max(
+        this.left ? this.left.height() : 0, 
+        this.right ? this.right.height() : 0
+      );
+    }
+  }
+
 
   printChildrenByLevel(node) {
     let returnArr = [];
@@ -51,10 +60,6 @@ class BinaryTree {
 
     if (!tree) return "";
     if (tree.left) {
-      console.log("------------------- START tree.left -------------------");
-      console.log(tree.data + ":");
-      console.log(tree.left);
-      console.log("-------------------- END tree.left --------------------");
       if (returnArr[level]) {
         returnArr[level] += spacesBetween + tree.left.data.toString() || "";
       } else {
@@ -63,12 +68,6 @@ class BinaryTree {
     }
 
     if (tree.right) {
-      console.log("------------------- START tree.right -------------------");
-
-      console.log(tree.data + ":");
-      console.log(tree.right);
-      console.log("-------------------- END tree.right --------------------");
-
       if (returnArr[level]) {
         returnArr[level] += spacesBetween + tree.right.data.toString() || "";
       } else {
@@ -95,9 +94,7 @@ binaryTest.insert(1);
 binaryTest.insert(8);
 binaryTest.insert(3);
 binaryTest.insert(7);
-binaryTest.insert(1);
-binaryTest.insert(2);
-binaryTest.insert(3);
-binaryTest.insert(4);
+
+console.log("height: " + binaryTest.height());
 console.log(JSON.stringify(binaryTest, null, 2));
 console.log(binaryTest.printChildrenByLevel(binaryTest));
