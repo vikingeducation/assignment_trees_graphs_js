@@ -1,4 +1,4 @@
-let LinkedList = require("./node.js");
+let LinkedList = require("./LinkedList.js");
 let edgeList = require("./edgeList.js");
 
 class AdjacencyList {
@@ -17,14 +17,39 @@ class AdjacencyList {
     }
   }
   convertEdgeList() {
-    this.edgeList.forEach(edge, index => {
-      if (!this.adjList[index]) {
-        this.adjList[index] = new LinkedList();
-      } else {
-        this.adjList[index].appendNode();
+    this._uniqueIDsHelper();
+    this.uniqueIDs.forEach(id => {
+      if (!this.adjList[id]) {
+        this.adjList[id] = new LinkedList();
       }
+      this.edgeList.forEach(edge => {
+        console.log("edge0.id: ", edge[0].id);
+        console.log("this.adjList[id]: ", this.adjList[id]);
+
+        if (edge[0].id === id) {
+          this.adjList[id].addNode({
+            [edge[1].name]: { id: edge[1].id, weight: edge[2] }
+          });
+        }
+        if (edge[1].id === id) {
+          this.adjList[id].addNode({
+            [edge[0].name]: { id: edge[0].id, weight: edge[2] }
+          });
+        }
+      });
     });
+    console.log(JSON.stringify(this.adjList, null, 2));
   }
+
+  printAdjList() {
+    for (var i = 0, len = this.adjList.length; i < len; i++) {
+      console.log(i + " :" + this.adjList[i].renderList());
+    }
+  }
+
+  edgeWeight(from, to) {}
 }
 
 const al = new AdjacencyList(edgeList);
+al.convertEdgeList();
+al.printAdjList();
