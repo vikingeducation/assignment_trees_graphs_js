@@ -37,10 +37,16 @@ class AdjacencyMatrix {
             this.matrix[i][j] = edge[2];
           }
         });
+
+        this.edgeList.forEach(edge => {
+          if (edge[0].id === j && edge[1].id === i) {
+            this.matrix[i][j] = edge[2];
+          }
+        });
       }
       console.log(this.matrix[i]);
     }
-    console.log(JSON.stringify(this.matrix));
+    //console.log(JSON.stringify(this.matrix));
   }
 
   edgeWeight(idFrom, idTo) {
